@@ -16,5 +16,7 @@
     "url": "https://github.com/rachelgould/link-finder/issues"
   },
   "homepage": "https://github.com/rachelgould/link-finder#readme",
-  "dependencies": {}
+  "dependencies": {
+    "supercrawler": "^1.7.1"
+  }
 }
