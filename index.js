@@ -50,13 +50,11 @@ crawler.addHandler("text/html", supercrawler.handlers.htmlLinkParser({
 // Custom content handler for HTML pages.
 crawler.addHandler("text/html", function (context) {
   let currentUrl = context.url;
-  var sizeKb = Buffer.byteLength(context.body) / 1024;
   let links = getLinks(context);
   let thisList = {};
   thisList[currentUrl] = links
   finalList.push(thisList)
-  logger.info("Processed", currentUrl, "Size=", sizeKb, "KB");
-  console.log("Processed", currentUrl, "Size=", sizeKb, "KB");
+  console.log("Finished another URL! ", thisList)
 });
 
 const getLinks = (context) => {
