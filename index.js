@@ -62,7 +62,7 @@ const getLinks = (context) => {
   context.$('a').each((index, link) => {
     url = link.attribs.href || null;
     if (url) {
-      if (url.includes("bit.ly") || url.includes("cmd.php")) {
+      if (url.includes("bit.ly") && url !== 'http://bit.ly/2Objmjs' && url !== 'http://bit.ly/2RPLM4C' || url.includes("cmd.php")) {
         console.log("Detected this relevant link: ", url)
         links.push(url)
       }
