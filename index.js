@@ -51,8 +51,8 @@ crawler.addHandler("text/html", supercrawler.handlers.htmlLinkParser({
 crawler.addHandler("text/html", function (context) {
   // console.log(context)
   var sizeKb = Buffer.byteLength(context.body) / 1024;
-  let contents = Buffer.toString(context.body)
-  console.log(contents)
+  // let links = getLinks(context);
+  console.log(getLinks(context))
   console.log("Processed", context.url, "Size=", sizeKb, "KB");
   // console.log(`${} URLs left in the queue`)
 });
@@ -64,3 +64,11 @@ crawler.getUrlList()
   });
 
 // Add something to stop crawling if url list is empty
+
+const getLinks = (context) => {
+  let links = [];
+  context.$('a').each((index, link) => {
+    console.log("link: ", link.attribs.href)
+  });
+  return links;
+}
