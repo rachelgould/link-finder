@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/rachelgould/link-finder#readme",
   "dependencies": {
+    "mysql2": "^1.6.5",
     "supercrawler": "^1.7.1"
   }
 }
