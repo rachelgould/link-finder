@@ -51,11 +51,25 @@ crawler.addHandler("text/html", supercrawler.handlers.htmlLinkParser({
 crawler.addHandler("text/html", function (context) {
   // console.log(context)
   var sizeKb = Buffer.byteLength(context.body) / 1024;
-  // let links = getLinks(context);
-  console.log(getLinks(context))
+  let links = getLinks(context);
+  console.log("Links found: ", links)
+  logger.info("Processed", context.url, "Size=", sizeKb, "KB");
   console.log("Processed", context.url, "Size=", sizeKb, "KB");
-  // console.log(`${} URLs left in the queue`)
 });
+
+const getLinks = (context) => {
+  let links = [];
+  context.$('a').each((index, link) => {
+    url = link.attribs.href || null;
+    if (url) {
+      if (url.includes("bit.ly") || url.includes("cmd.php")) {
+        console.log("Detected this relevant link: ", url)
+        links.push(url)
+      }
+    }
+  });
+  return links;
+}
 
 crawler.getUrlList()
   .insertIfNotExists(new supercrawler.Url("https://stagingdiva.com/"))
@@ -64,11 +78,3 @@ crawler.getUrlList()
   });
 
 // Add something to stop crawling if url list is empty
-
-const getLinks = (context) => {
-  let links = [];
-  context.$('a').each((index, link) => {
-    console.log("link: ", link.attribs.href)
-  });
-  return links;
-}
