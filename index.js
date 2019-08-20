@@ -45,19 +45,30 @@ crawler.addHandler(supercrawler.handlers.sitemapsParser());
 // Pick up <a href> links from HTML documents
 crawler.addHandler("text/html", supercrawler.handlers.htmlLinkParser({
   // Restrict discovered links to the following hostnames.
-  hostnames: ["bit.ly", "stagingdiva.com", "thestagingdiva.com"]
+  hostnames: ["bit.ly", "stagingdiva.com", "thestagingdiva.com"],
+  urlFilter: function (url) {
+    return !url.includes("page") && !url.includes("category")
+  }
 }));
  
 // Custom content handler for HTML pages.
 crawler.addHandler("text/html", function (context) {
   let currentUrl = context.url;
-  let links = getLinks(context);
-  let thisList = {};
-  thisList[currentUrl] = links
-  if (links.length >= 1) {
-    finalList.push(thisList)
+  if (!currentUrl.includes("page") && !currentUrl.includes("category")) {
+    let links = getLinks(context);
+    let thisList = {};
+    thisList[currentUrl] = links
+    if (links.length >= 1) {
+      finalList.push(thisList)
+      console.log("Finished another URL! ", thisList)
+    } else {
+      console.log(`Finished with ${currentUrl}. No relevant links found.`)
+    }
+    let queueLength = crawler.getUrlList()._list.length
+    console.log(`${queueLength} URLs currently in the queue`)
+  } else {
+    console.log("Skipping excluded page...")
   }
-  console.log("Finished another URL! ", thisList)
 });
 
 const getLinks = (context) => {
@@ -66,7 +77,6 @@ const getLinks = (context) => {
     url = link.attribs.href || null;
     if (url) {
       if (url.includes("bit.ly") && url !== 'http://bit.ly/2Objmjs' && url !== 'http://bit.ly/2RPLM4C' || url.includes("cmd.php")) {
-        console.log("Detected this relevant link: ", url)
         links.push(url)
       }
     }
