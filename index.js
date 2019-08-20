@@ -71,10 +71,13 @@ const getLinks = (context) => {
   return links;
 }
 
+crawler.on('urllistcomplete', () => {
+  console.log("Crawl Finished!")
+  crawler.stop();
+})
+
 crawler.getUrlList()
   .insertIfNotExists(new supercrawler.Url("https://stagingdiva.com/"))
   .then(function () {
     return crawler.start();
   });
-
-// Add something to stop crawling if url list is empty
