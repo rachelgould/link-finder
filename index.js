@@ -1,4 +1,5 @@
 var supercrawler = require("supercrawler");
+let { startingUrl, searchFor, ignoreLinks } = 'inputs.js'
 let finalList = [];
 // 1. Create a new instance of the Crawler object, providing configuration
 // details. Note that configuration cannot be changed after the object is
@@ -53,7 +54,9 @@ crawler.addHandler("text/html", function (context) {
   let links = getLinks(context);
   let thisList = {};
   thisList[currentUrl] = links
-  finalList.push(thisList)
+  if (links.length >= 1) {
+    finalList.push(thisList)
+  }
   console.log("Finished another URL! ", thisList)
 });
 
