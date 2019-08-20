@@ -1,5 +1,5 @@
 var supercrawler = require("supercrawler");
- 
+let finalList = [];
 // 1. Create a new instance of the Crawler object, providing configuration
 // details. Note that configuration cannot be changed after the object is
 // created.
@@ -49,12 +49,14 @@ crawler.addHandler("text/html", supercrawler.handlers.htmlLinkParser({
  
 // Custom content handler for HTML pages.
 crawler.addHandler("text/html", function (context) {
-  // console.log(context)
+  let currentUrl = context.url;
   var sizeKb = Buffer.byteLength(context.body) / 1024;
   let links = getLinks(context);
-  console.log("Links found: ", links)
-  logger.info("Processed", context.url, "Size=", sizeKb, "KB");
-  console.log("Processed", context.url, "Size=", sizeKb, "KB");
+  let thisList = {};
+  thisList[currentUrl] = links
+  finalList.push(thisList)
+  logger.info("Processed", currentUrl, "Size=", sizeKb, "KB");
+  console.log("Processed", currentUrl, "Size=", sizeKb, "KB");
 });
 
 const getLinks = (context) => {
@@ -73,6 +75,7 @@ const getLinks = (context) => {
 
 crawler.on('urllistcomplete', () => {
   console.log("Crawl Finished!")
+  console.log(finalList)
   crawler.stop();
 })
 
