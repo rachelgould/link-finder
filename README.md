@@ -14,7 +14,7 @@ The end output is a list of your website's pages, and the matching link destinat
 
 3. Enter custom values for `startingUrl`, `searchFor`, `ignoreLinks` and `supportedHostnames`. 
 
-4. In your CLI, run `npm run` to start your crawl.
+4. In your CLI, run `npm start` to start your crawl.
 
 ## Dependencies
 
